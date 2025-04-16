@@ -1,4 +1,4 @@
-// api/config/swagger.js
+// api/swagger.js
 
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -12,22 +12,25 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:3000/',
+        url: 'http://localhost:3000',
         description: 'Servidor de desarrollo local',
       },
     ],
     components: {
       securitySchemes: {
-        bearerAuth: {
+        BearerAuth: {
           type: 'http',
           scheme: 'bearer',
           bearerFormat: 'JWT',
         },
       },
     },
-    security: [{ bearerAuth: [] }],
+    tags: [
+
+    ],
+    security: [{ BearerAuth: [] }],
   },
-  apis: ['./routes/*.js'], 
+  apis: ['./api/routes/*.js'], 
 };
 
 const swaggerSpec = swaggerJsdoc(options);

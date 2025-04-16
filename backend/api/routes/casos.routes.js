@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { obtenerCasos, obtenerPorId,crearCaso,actualizarCaso, eliminarCaso } = require('../controllers/caso.controller');
+const verificarToken = require('../middlewares/verificarToken.middleware');
+const verificarRol = require('../middlewares/verificarRol.middleware');
+
+
 
 
 /**
@@ -9,6 +13,8 @@ const { obtenerCasos, obtenerPorId,crearCaso,actualizarCaso, eliminarCaso } = re
  *   get:
  *     summary: Obtener todos los casos con paginación
  *     tags: [Casos]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -26,13 +32,16 @@ const { obtenerCasos, obtenerPorId,crearCaso,actualizarCaso, eliminarCaso } = re
  *       500:
  *         description: Error al obtener los casos
  */
-router.get('/', obtenerCasos);
+
+router.get('/', verificarToken,obtenerCasos);
 /**
  * @swagger
  * /api/casos/{id}:
  *   get:
  *     summary: Obtener un caso por ID
  *     tags: [Casos]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -46,13 +55,18 @@ router.get('/', obtenerCasos);
  *       404:
  *         description: Caso no encontrado
  */
-router.get('/:id', obtenerPorId);
+router.get('/:id',verificarToken, obtenerPorId);
 /**
  * @swagger
  * /api/casos:
  *   post:
  *     summary: Crear un nuevo caso
  *     tags: [Casos]
+ *     security:
+ *       - BearerAuth: []
+ *     description: |
+ *       Esta ruta solo puede ser utilizada por usuarios autenticados con rol `editor` o `admin`.
+ *       Si el usuario tiene otro rol, se devolverá un error de permisos.
  *     requestBody:
  *       required: true
  *       content:
@@ -78,13 +92,18 @@ router.get('/:id', obtenerPorId);
  *       400:
  *         description: Error en los datos enviados
  */
-router.post('/', crearCaso);
+router.post('/', verificarToken, verificarRol(['editor', 'admin']), crearCaso);
 /**
  * @swagger
  * /api/casos/{id}:
  *   put:
  *     summary: Actualizar un caso existente
  *     tags: [Casos]
+ *     security:
+ *       - BearerAuth: []
+ *     description: |
+ *       Esta ruta solo puede ser utilizada por usuarios autenticados con rol `editor` o `admin`.
+ *       Si el usuario tiene otro rol, se devolverá un error de permisos.
  *     parameters:
  *       - in: path
  *         name: id
@@ -116,7 +135,7 @@ router.post('/', crearCaso);
  *       404:
  *         description: Caso no encontrado
  */
-router.put('/:id', actualizarCaso);
+router.put('/:id',verificarToken, verificarRol(['editor', 'admin']), actualizarCaso);
 
 /**
  * @swagger
@@ -124,6 +143,11 @@ router.put('/:id', actualizarCaso);
  *   delete:
  *     summary: Eliminar un caso
  *     tags: [Casos]
+ *     security:
+ *       - BearerAuth: []
+ *     description: |
+ *       Esta ruta solo puede ser utilizada por usuarios autenticados con rol `editor` o `admin`.
+ *       Si el usuario tiene otro rol, se devolverá un error de permisos.
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,6 +161,6 @@ router.put('/:id', actualizarCaso);
  *       404:
  *         description: Caso no encontrado
  */
-router.delete('/:id',eliminarCaso);
+router.delete('/:id',verificarToken, verificarRol(['editor', 'admin']), eliminarCaso);
 
 module.exports = router;

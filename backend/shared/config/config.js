@@ -2,17 +2,18 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 // Cargar .env.shared ANTES de usar process.env
-const envPath = path.resolve(__dirname, '../../.env.shared');
+const envPath = path.resolve(__dirname, '../../.env');
 const result = dotenv.config({ path: envPath });
+console.log("envPath: ".envPath);
 
 if (result.error) {
-  console.error('Error al cargar .env.shared:', result.error);
+  console.error('Error al cargar .env:', result.error);
 } else {
   console.log('Variables de entorno cargadas correctamente desde:', envPath);
   console.log('DB_USER:', process.env.DB_USER); // Solo para verificar en consola
 }
 
-console.log("path: ", path.resolve(__dirname, '../../.env.shared'));
+console.log("path: ", path.resolve(__dirname, '../../.env'));
 module.exports = {
   development: {
     username: process.env.DB_USER,

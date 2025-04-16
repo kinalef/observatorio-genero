@@ -40,6 +40,6 @@ web_modules/
 
 # General
 .DS_Store
-backend/data
+backend/carga-datos/data
 revisar/
 

@@ -1,6 +1,6 @@
 // api/config/passport.js
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') }); // ← ¡Importante!
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); 
 
 
 const passport = require('passport');
@@ -18,7 +18,6 @@ passport.use(new GoogleStrategy({
 async (accessToken, refreshToken, profile, done) => {
   // Buscar usuario por ID de Google o email
   let usuario = usuarios.find(u => u.id === profile.id);
-
   if (!usuario) {
     usuario = {
       id: profile.id,

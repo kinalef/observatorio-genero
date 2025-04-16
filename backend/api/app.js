@@ -24,7 +24,7 @@ app.use(passport.initialize());
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rutas
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/casos', casosRoutes);
 
 //app.use('/', rutas);
