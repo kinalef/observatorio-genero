@@ -2,8 +2,8 @@
 
 Este proyecto tiene como objetivo centralizar, procesar y disponibilizar datos públicos, extraídos desde [Red Chilena contra la Violencia hacia las Mujeres](https://www.nomasviolenciacontramujeres.cl/), sobre violencia de género en Chile a través de un sistema modular dividido en tres partes principales:
 
-- **`backend/`**: Procesamiento automático de archivos Excel (la Red Chilena contra la Violencia hacia las Mujeres) y carga estructurada a una base de datos PostgreSQL.
-- **`api/`**: API REST que consulta la base de datos y expone endpoints autenticados para acceder a los datos procesados.
+- **`backend/carga-datos`**: Procesamiento automático de archivos Excel provenientes de la Red Chilena contra la Violencia hacia las Mujeres y carga estructurada a una base de datos PostgreSQL.
+- **`backend/api/`**: API REST que consulta la base de datos y expone endpoints autenticados para acceder a los datos procesados.
 - **`frontend/`** *(en desarrollo)*: Interfaz visual para exploración, visualización y descarga de los datos procesados.
 
 ## 📁 Estructura del Proyecto
@@ -21,8 +21,16 @@ observatorio-genero/
 │   └── README.md               # Documentación del frontend (por desarrollar)
 └── README.md                   # Descripción general del proyecto
 ```
+## 🛠️ Tecnologías principales
 
-## 🔄 Modularidad y carpeta `shared/`
+- **Node.js** + **Express** — Backend y API REST
+- **PostgreSQL** — Base de datos relacional
+- **Sequelize** — ORM para Node.js
+- **Swagger** — Documentación de la API
+- **JWT + OAuth2 (Google)** — Autenticación de usuarios
+- **Docker** *(opcional/futuro)* — Para despliegue y entorno controlado
+
+## 🔄 Modularidad y carpeta `backend/shared/`
 
 El proyecto está dividido en módulos independientes (`backend`, `api`, `frontend`), pero comparten ciertos recursos comunes. Para evitar duplicación de código, se utiliza la carpeta `shared/`, donde se almacenan:
 
@@ -36,14 +44,15 @@ Esto permite mantener una única fuente de verdad para modelos y configuración,
 Consulta los README específicos en cada carpeta:
 
 - [`backend/README.md`](./backend/README.md)
-- [`api/README.md`](./api/README.md)
 - [`frontend/README.md`](./frontend/README.md) *(próximamente)*
 
 ## 📌 Estado actual
 
-- `backend/`: funcional y probado con datos reales.
-- `api/`: en desarrollo. Documentación Swagger y autenticación en proceso.
-- `frontend/`: no implementado aún.
+| Módulo     | Estado           | Notas                                                 |
+|------------|------------------|--------------------------------------------------------|
+| backend/   | ✅ Funcional      | Carga de datos probada con archivos reales            |
+| api/       | 🛠️ En desarrollo | Autenticación JWT y documentación Swagger activas     |
+| frontend/  | 🚧 Pendiente     | Interfaz web por implementar                          |
 
 ## 🤝 Contribuciones
 
