@@ -1,20 +1,37 @@
 // api/config/passport.js
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); 
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); 
+}
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require('jsonwebtoken');
 
-// Simulación de "BD"
-const usuarios = []; // reemplazarás esto por tu modelo real más adelante
+
+const usuarios = []; 
+
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: process.env.GOOGLE_CALLBACK_URL
+  },
+  (accessToken, refreshToken, profile, done) => {
+    return done(null, profile);
+  }));
+} else {
+  console.warn('Google OAuth environment variables are missing. Skipping Google Strategy.');
+}
+
 
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: process.env.GOOGLE_CALLBACK_URL
 },
+
 async (accessToken, refreshToken, profile, done) => {
   // Buscar usuario por ID de Google o email
   let usuario = usuarios.find(u => u.id === profile.id);
