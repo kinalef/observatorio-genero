@@ -28,57 +28,103 @@ const { Usuario, LogActividad } = require('../../shared/models');
  */
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
+
 // Callback de Google
 
-router.get('/google/callback',
-  passport.authenticate('google', { session: false }),
-  async (req, res) => {
-    const perfil = req.user.usuario;
-
-    // 1. Buscar por id_google
-    let usuario = await Usuario.findOne({ where: { id_google: perfil.id } });
-
-    if (!usuario) {
-      // 2. Si el usuario no existe, entonces se crea en la BD como un nuevo registro
-      usuario = await Usuario.create({
-        id_google: perfil.id,
-        nombre: perfil.nombre,
-        email: perfil.email,
-        foto: perfil.foto,
-        ultima_conexion: new Date()
-      });
-    } else {
-      // 3. Si ya existe, se actualiza la última conexión
-      usuario.ultima_conexion = new Date();
-      await usuario.save();
+router.get('/google/callback', (req, res, next) => {
+  passport.authenticate('google', { session: false }, async (err, user, info) => {
+    if (err) {
+      console.error('Error de autenticación en callback:', err);
+      return res.status(500).json({ mensaje: 'Error interno en autenticación', error: err });
     }
 
-    // 4. Guardar actividad de login
-    await LogActividad.create({
-      usuario_id: usuario.id,
-      tipo: 'login', //pensar en estandarizar este campo
-      endpoint: '/api/auth/google/callback',
-      fecha: new Date()
-    });
+    if (!user) {
+      console.error('No se recibió usuario desde Google:', info);
+      return res.status(401).json({ mensaje: 'Autenticación fallida', detalle: info });
+    }
 
-    // 5. Generar token con id interno
-    const token = jwt.sign(
+    try {
+      const perfil = user.usuario;  // Ajusta según cómo estés pasando el perfil
+
+      // Buscar usuario o crear
+      let usuario = await Usuario.findOne({ where: { id_google: perfil.id } });
+
+      if (!usuario) {
+        usuario = await Usuario.create({
+          id_google: perfil.id,
+          nombre: perfil.nombre,
+          email: perfil.email,
+          foto: perfil.foto,
+          ultima_conexion: new Date()
+        });
+      } else {
+        usuario.ultima_conexion = new Date();
+        await usuario.save();
+      }
+
+      await LogActividad.create({
+        usuario_id: usuario.id,
+        tipo: 'login',
+        endpoint: '/api/auth/google/callback',
+        fecha: new Date()
+      });
+
+      const accessToken = jwt.sign(
+        { id: usuario.id, email: usuario.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
+      );
+
+      const refreshToken = jwt.sign(
+        { id: usuario.id },
+        process.env.JWT_REFRESH_SECRET,
+        { expiresIn: '7d' }
+      );
+
+      res.json({
+        mensaje: 'Autenticación exitosa',
+        usuario: {
+          //id: usuario.id,
+          nombre: usuario.nombre,
+          email: usuario.email,
+          //foto: usuario.foto
+        },
+        token: accessToken,
+        refreshToken: refreshToken
+      });
+
+    } catch (catchErr) {
+      console.error('Error en flujo de procesamiento post-login:', catchErr);
+      return res.status(500).json({ mensaje: 'Error interno en post login', error: catchErr });
+    }
+  })(req, res, next);
+});
+
+// Endpoint para refrescar el token de acceso
+router.post('/refresh', async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'No se proporcionó refresh token' });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+    const usuario = await Usuario.findByPk(decoded.id);
+    if (!usuario) {
+      return res.status(403).json({ error: 'Usuario no encontrado' });
+    }
+
+    const nuevoAccessToken = jwt.sign(
       { id: usuario.id, email: usuario.email },
       process.env.JWT_SECRET,
-      { expiresIn: '24h' }
+      { expiresIn: '15m' }
     );
 
-    // 6. Enviar respuesta
-    res.json({
-      mensaje: 'Autenticación exitosa',
-      usuario: {
-       // id: usuario.id,
-        nombre: usuario.nombre,
-        email: usuario.email,
-        //foto: usuario.foto
-      },
-      token
-    });
+    return res.json({ token: nuevoAccessToken });
+  } catch (err) {
+    return res.status(403).json({ error: 'Refresh token inválido o expirado' });
   }
-);
+});
 module.exports = router;
