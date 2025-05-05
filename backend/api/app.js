@@ -30,7 +30,6 @@ app.use('/api/casos', casosRoutes);
 app.use('/api/estadisticas',estadisticasRoutes );
 
 //app.use('/', rutas);
-console.log("🧩 Estadísticas route cargada:", estadisticasRoutes);
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

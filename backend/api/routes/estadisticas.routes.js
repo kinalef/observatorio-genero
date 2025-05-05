@@ -1,17 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { calcularEstadisticasGlobales } = require('../controllers/estadisticas.controller');
-const verificarToken = require('../middlewares/verificarToken.middleware');
 
-// Ruta protegida para estadísticas globales
+// Ruta  para estadísticas globales (sin autenticación)
 /**
  * @swagger
  * /api/estadisticas/globales:
  *   get:
  *     summary: Obtener estadísticas agregadas de femicidios
  *     tags: [Estadísticas]
- *     security:
- *       - BearerAuth: []
+ *     security: []
  *     responses:
  *       200:
  *         description: Estadísticas generales calculadas a partir de la base de datos
@@ -68,6 +66,6 @@ const verificarToken = require('../middlewares/verificarToken.middleware');
  *                         type: integer
  *                         example: 45
  */
-router.get('/globales', verificarToken, calcularEstadisticasGlobales);
+router.get('/globales', calcularEstadisticasGlobales);
 
 module.exports = router;
