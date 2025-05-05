@@ -6,6 +6,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 const path = require('path');
 const authRoutes = require('./routes/auth.routes');
+const estadisticasRoutes = require('./routes/estadisticas.routes');
 const rutas = require('./routes');
 
 
@@ -26,9 +27,10 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Rutas
 app.use('/api/auth', authRoutes);
 app.use('/api/casos', casosRoutes);
+app.use('/api/estadisticas',estadisticasRoutes );
 
 //app.use('/', rutas);
-
+console.log("🧩 Estadísticas route cargada:", estadisticasRoutes);
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

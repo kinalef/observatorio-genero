@@ -3,7 +3,6 @@ const router = express.Router();
 const { calcularEstadisticasGlobales } = require('../controllers/estadisticas.controller');
 const verificarToken = require('../middlewares/verificarToken.middleware');
 
-
 // Ruta protegida para estadísticas globales
 /**
  * @swagger
