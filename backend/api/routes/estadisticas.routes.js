@@ -18,35 +18,31 @@ const { calcularEstadisticasGlobales } = require('../controllers/estadisticas.co
  *             schema:
  *               type: object
  *               properties:
- *                 totalFemicidios:
+ *                 total_femicidios:
  *                   type: integer
  *                   example: 855
- *                 promedioEdad:
- *                   type: number
- *                   format: float
- *                   example: 33.5
- *                 menoresDeEdad:
- *                   type: integer
- *                   example: 78
- *                 rangoEtarioMasAfectado:
- *                   type: string
- *                   example: "25-35"
- *                 relacionConAgresor:
+ *                 distribucion_edad:
  *                   type: object
  *                   properties:
- *                     pareja:
+ *                     promedio:
+ *                       type: number
+ *                       format: float
+ *                       example: 33.5
+ *                     menores_de_edad:
  *                       type: integer
- *                       example: 432
- *                     expareja:
+ *                       example: 78
+ *                     rango_25_35:
  *                       type: integer
- *                       example: 189
- *                     familiar:
- *                       type: integer
- *                       example: 88
- *                     desconocido:
- *                       type: integer
- *                       example: 45
- *                 porRegion:
+ *                       example: 210
+ *                 relacion_agresor:
+ *                   type: object
+ *                   additionalProperties:
+ *                     type: integer
+ *                   example:
+ *                     Pareja: 432
+ *                     Ex Pareja: 189
+ *                     Desconocido: 45
+ *                 casos_por_region:
  *                   type: object
  *                   additionalProperties:
  *                     type: integer
@@ -54,17 +50,27 @@ const { calcularEstadisticasGlobales } = require('../controllers/estadisticas.co
  *                     Metropolitana: 213
  *                     Valparaíso: 122
  *                     Biobío: 87
- *                 evolucionAnual:
- *                   type: array
- *                   items:
+ *                 casos_por_anio:
+ *                   type: object
+ *                   additionalProperties:
+ *                     type: integer
+ *                   example:
+ *                     2018: 88
+ *                     2019: 102
+ *                     2020: 94
+ *                 casos_por_region_y_anio:
+ *                   type: object
+ *                   additionalProperties:
  *                     type: object
- *                     properties:
- *                       año:
- *                         type: integer
- *                         example: 2020
- *                       cantidad:
- *                         type: integer
- *                         example: 45
+ *                     additionalProperties:
+ *                       type: integer
+ *                   example:
+ *                     Metropolitana:
+ *                       2018: 45
+ *                       2019: 52
+ *                     Valparaíso:
+ *                       2019: 34
+ *                       2020: 40
  */
 router.get('/globales', calcularEstadisticasGlobales);
 

@@ -3,26 +3,46 @@
 const { CasoVictima } = require("../../shared/models");
 const { Op } = require("sequelize"); //operadores
 
+const removeDiacritics = (str) =>
+  str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+const capitalizarCadaPalabra = (str) =>
+  str
+    .split(" ")
+    .map((palabra) =>
+      palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase()
+    )
+    .join(" ");
+
 function normalizarRelacionAgresor(relacion) {
-    if (!relacion) return "desconocido";
-  
-    const mapaNormalizacion = {
-      "ex conviviente": "Ex Conviviente",
-      "ex pareja": "Ex Pareja",
-      "ex cónyuge": "Ex Cónyuge",
-      "conviviente; conocido": "Conviviente/Conocido",
-      "desconocido": "Desconocido",
-      "desconocidos": "Desconocido",
-      "conocidos": "Conocido",
-      "ex vecino": "Ex Vecino",
-      "conyugue": "Cónyuge",
-      "ex yerno": "Ex Yerno",
-      // agrega aquí todas las normalizaciones que quieras
-    };
-  
-    const key = relacion.trim().toLowerCase();
-    return mapaNormalizacion[key] || relacion.trim();
+  if (!relacion) return "Desconocido";
+
+  const mapaNormalizacion = {
+    "ex conviviente": "Ex Conviviente",
+    "ex pareja": "Ex Pareja",
+    "ex conyuge": "Ex Cónyuge",
+    "conviviente; conocido": "Conviviente/Conocido",
+    "desconocido": "Desconocido",
+    "desconocidos": "Desconocido",
+    "se desconoce": "Desconocido",
+    "desconoce": "Desconocido",
+    "desconocido; desconocido": "Desconocido",
+    "desconocido; desconocido; desconocido": "Desconocido",
+    "conocidos": "Conocido",
+    "ex vecino": "Ex Vecino",
+    "conyugue": "Cónyuge",
+    "ex yerno": "Ex Yerno",
+    "ex conyugue": "Ex Cónyuge",
+  };
+
+  const claveSinAcentos = removeDiacritics(relacion.trim().toLowerCase());
+
+  if (mapaNormalizacion[claveSinAcentos]) {
+    return mapaNormalizacion[claveSinAcentos];
   }
+
+  return capitalizarCadaPalabra(removeDiacritics(relacion.trim()));
+}
 
 const calcularEstadisticasGlobales = async (req, res) => {
 
@@ -114,6 +134,30 @@ const calcularEstadisticasGlobales = async (req, res) => {
         acc[anio] = (acc[anio] || 0) + 1;
         return acc;
       }, {});
+      // 6. Casos por región y año
+    const casosRegionAnioRaw = await CasoVictima.findAll({
+      attributes: ['region', 'fecha'],
+      where: {
+        fecha: {
+          [Op.not]: null,
+        },
+      },
+    });
+
+    const casosPorRegionYAnio = {};
+
+    casosRegionAnioRaw.forEach((caso) => {
+      const regionOriginal = caso.region?.trim() || "desconocida";
+      const region = mapaRegiones[regionOriginal] || regionOriginal;
+
+      const anio = caso.fecha?.getFullYear?.() || 'desconocido';
+
+      if (!casosPorRegionYAnio[region]) {
+        casosPorRegionYAnio[region] = {};
+      }
+
+      casosPorRegionYAnio[region][anio] = (casosPorRegionYAnio[region][anio] || 0) + 1;
+    });
 
     return res.json({
       total_femicidios: total,
@@ -125,6 +169,7 @@ const calcularEstadisticasGlobales = async (req, res) => {
       relacion_agresor: relacionCount,
       casos_por_region: regionesCount,
       casos_por_anio: casosPorAnio,
+      casos_por_region_y_anio: casosPorRegionYAnio, 
     });
   } catch (error) {
     console.error("Error al calcular estadísticas:", error);
