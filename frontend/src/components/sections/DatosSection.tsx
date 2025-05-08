@@ -1,9 +1,23 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { CasosPorAnioChart } from "@/components/charts/CasosPorAnioChart";
-import { RelacionAgresorWordCloud } from "@/components/charts/RelacionAgresorWordCloud";
-import { HeatmapECharts } from "@/components/charts/HeatmapECharts";
+import dynamic from "next/dynamic"; 
+
+// Importación dinámica con SSR desactivado
+const CasosPorAnioChart = dynamic(
+  () => import("@/components/charts/CasosPorAnioChart").then((mod) => mod.CasosPorAnioChart),
+  { ssr: false }
+);
+
+const HeatmapECharts = dynamic(
+  () => import("@/components/charts/HeatmapECharts").then((mod) => mod.HeatmapECharts),
+  { ssr: false }
+);
+
+const RelacionAgresorWordCloud = dynamic(
+  () => import("@/components/charts/RelacionAgresorWordCloud").then((mod) => mod.RelacionAgresorWordCloud),
+  { ssr: false }
+);
 
 interface Estadisticas {
   total_femicidios: number;
