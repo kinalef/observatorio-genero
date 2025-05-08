@@ -6,6 +6,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-inter: 'Inter', sans-serif;
 }
 
 @theme inline {
@@ -25,5 +26,16 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
+}
+.react-wordcloud-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #111 !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  z-index: 9999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  pointer-events: none; /* evita problemas al intentar hacer hover directamente sobre el tooltip */
 }

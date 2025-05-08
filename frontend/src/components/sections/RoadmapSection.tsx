@@ -1,59 +1,41 @@
-'use client';
-import { motion } from 'framer-motion';
+import React from "react";
 
-export function RoadmapSection() {
+export  function RoadmapSection() {
   return (
-    <section className="bg-white py-24 px-6">
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.h2
-          className="text-3xl md:text-5xl font-bold mb-12 text-gray-800"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          Lo que viene
-        </motion.h2>
+    <section className="bg-[#111111] text-white py-24 px-6">
+      <div className="max-w-5xl mx-auto text-center">
+        <h2 className="text-4xl font-bold mb-6">Lo que viene</h2>
+        <p className="text-lg md:text-xl leading-relaxed mb-12">
+          Seguiremos incorporando datos,
+          desarrollando análisis profundos y sumando nuevas formas de visibilizar la
+          violencia de género. 
+        </p>
 
-        <div className="space-y-10 text-left">
-          <motion.div
-            className="p-6 border-l-4 border-purple-600 bg-gray-50 rounded-md shadow"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-xl font-semibold text-purple-700">+ Visualización interactiva</h3>
-            <p className="text-gray-700">
-              Incorporaremos gráficos y mapas dinámicos que permitan explorar patrones, zonas críticas y evolución de casos por región.
+        <div className="grid md:grid-cols-3 gap-12">
+          <div className="bg-[#1A1A1A] p-8 rounded-2xl shadow-md hover:scale-1  05 transition-transform duration-300">
+            <h3 className="text-2xl font-semibold mb-4">Integración de nuevos datasets</h3>
+            <p className="text-base leading-relaxed">
+              Incorporaremos datos del Ministerio de la Mujer y Equidad de Género, y
+              otras organizaciones relevantes, para enriquecer la base de casos y brindar
+              una visión más completa.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="p-6 border-l-4 border-purple-600 bg-gray-50 rounded-md shadow"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-xl font-semibold text-purple-700">+ Datos desde más fuentes</h3>
-            <p className="text-gray-700">
-              Agregaremos información del Ministerio de la Mujer y otras instituciones públicas para complementar y contrastar los registros.
+          <div className="bg-[#1A1A1A] p-8 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+            <h3 className="text-2xl font-semibold mb-4">Panel analítico interactivo</h3>
+            <p className="text-base leading-relaxed">
+              Se está trabajando en un dashboard que permita explorar los datos desde
+              múltiples perspectivas: por región, año, edad, tipo de agresor y más.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="p-6 border-l-4 border-purple-600 bg-gray-50 rounded-md shadow"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-xl font-semibold text-purple-700">+ Comunidad y participación</h3>
-            <p className="text-gray-700">
-              Buscamos abrir el observatorio a colaboración con organizaciones territoriales, universidades y personas interesadas en aportar.
+          <div className="bg-[#1A1A1A] p-8 rounded-2xl shadow-md hover:scale-105 transition-transform duration-300">
+            <h3 className="text-2xl font-semibold mb-4">Acceso API público</h3>
+            <p className="text-base leading-relaxed">
+              Queremos que esta información esté disponible para desarrolladores,
+              investigadores y periodistas a través de una API protegida y bien documentada.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

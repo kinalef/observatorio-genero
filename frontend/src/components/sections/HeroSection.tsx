@@ -1,58 +1,31 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import Image from "next/image";
 
-export function HeroSection() {
+export  function HeroSection() {
   return (
-    <section className="bg-oscuro text-white py-24 px-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Columna de texto */}
-        <div>
-          <motion.h1
-            className="text-4xl md:text-6xl font-bold mb-6"
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            Observatorio de Violencia de Género en Chile
-          </motion.h1>
+    <section className="relative w-full h-screen bg-[#111111] flex flex-col justify-center items-center text-white overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/HSmujeres3.png"
+          alt="Silueta de mujeres en fila"
+          fill
+          className="object-cover object-center opacity-80"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/90" />
+      </div>
 
-          <motion.p
-            className="text-lg md:text-xl text-gray-300 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 1 }}
-          >
-            Cada número representa una historia, una vida, una pérdida.
-          </motion.p>
-
-          <motion.a
-            href="#stats"
-            className="inline-block bg-primary hover:bg-accent text-white font-semibold py-3 px-6 rounded-xl transition-colors"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 1 }}
-          >
-            Ver estadísticas
-          </motion.a>
-        </div>
-
-        {/* Columna de imagen */}
-        <motion.div
-          className="flex justify-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-        >
-          <Image
-            src="/images/HSMujeres3.png"
-            alt="Ilustración representativa de mujer"
-            width={500}
-            height={500}
-            className="rounded-xl shadow-lg"
-          />
-        </motion.div>
+      <div className="z-10 px-6 max-w-3xl text-center space-y-6">
+        <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+          Más de <span className="text-red-600"> 855 mujeres</span> han sido asesinadas
+          por violencia femicida en Chile desde el 2010
+        </h1>
+        <p className="text-lg md:text-xl text-gray-300">
+          Detrás de cada cifra hay una vida, una historia, una ausencia. Esta
+          plataforma visibiliza los datos recopilados por la <a href="https://www.nomasviolenciacontramujeres.cl/registro-de-femicidios/" target="_blank" className="font-bold">Red Chilena contra
+          la Violencia hacia las Mujeres</a>.
+        </p>
       </div>
     </section>
   );

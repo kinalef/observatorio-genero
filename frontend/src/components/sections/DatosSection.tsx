@@ -1,67 +1,115 @@
-// frontend/src/components/sections/DatosSection.tsx
-'use client';
-import { motion } from 'framer-motion';
+"use client";
 
-export function DatosSection() {
+import React, { useMemo } from "react";
+import { CasosPorAnioChart } from "@/components/charts/CasosPorAnioChart";
+import { RelacionAgresorWordCloud } from "@/components/charts/RelacionAgresorWordCloud";
+import { HeatmapECharts } from "@/components/charts/HeatmapECharts";
+
+interface Estadisticas {
+  total_femicidios: number;
+  distribucion_edad: {
+    promedio: number | null;
+    menores_de_edad: number;
+    rango_25_35: number;
+  };
+  relacion_agresor: Record<string, number>;
+  casos_por_region: Record<string, number>;
+  casos_por_anio: Record<string, number>;
+  casos_por_region_y_anio: Record<string, Record<string, number>>;
+}
+
+interface DatosSectionProps {
+  estadisticas: Estadisticas;
+}
+
+export const DatosSection: React.FC<DatosSectionProps> = ({ estadisticas }) => {
+  const datosBarChart = Object.entries(estadisticas.casos_por_anio).map(
+    ([anio, cantidad]) => ({
+      anio,
+      cantidad: Number(cantidad),
+    })
+  );
+
+  const datosPieRelacion = useMemo(
+    () =>
+      Object.entries(estadisticas.relacion_agresor || {}).map(
+        ([tipo, cantidad]) => ({
+          text: tipo,
+          value: Number(cantidad),
+        })
+      ),
+    [estadisticas]
+  );
+
+  const heatmapData = useMemo(() => {
+    const casos = estadisticas.casos_por_region_y_anio || {};
+  
+    const allYears = Array.from(
+      new Set(Object.values(casos).flatMap(regionData => Object.keys(regionData)))
+    ).sort();
+  
+    return Object.entries(casos).map(([region, datosPorAnio]) => {
+      const entrada: { region: string; [year: string]: number | string } = { region };
+      allYears.forEach(anio => {
+        entrada[anio] = datosPorAnio[anio] ?? 0;
+      });
+      return entrada;
+    });
+  }, [estadisticas]);
+
   return (
-    <section className="bg-[#121212] text-[#F5F5F7] py-24 px-6">
-      <div className="max-w-5xl mx-auto">
-        <motion.h2
-          className="text-3xl md:text-5xl font-bold mb-12 text-center"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          Estadísticas Clave (2010–2024)
-        </motion.h2>
+    <section className="bg-[#111111] text-white py-20 px-6">
+      <div className="max-w-5xl mx-auto text-center mb-16">
+        <h2 className="text-5xl md:text-6xl font-extrabold mb-4 leading-tight">
+          Cada número es una vida arrebatada
+        </h2>
+        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+          El Observatorio recoge información sobre los casos de femicidio en Chile, con el objetivo de visibilizar esta grave problemática. Los datos muestran la magnitud de una realidad que no podemos seguir ignorando.
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <motion.div
-            className="bg-[#2C2C2E] p-6 rounded-xl shadow-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-xl text-[#B5B6C9] mb-2">Femicidios registrados</p>
-            <p className="text-4xl font-bold text-white">563</p>
-          </motion.div>
+      <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+        <div className="bg-[#1c1c1c] p-8 rounded-2xl shadow-lg text-center hover:scale-105 transition-transform">
+          <p className="text-6xl font-bold text-red-600 mb-2">
+            {estadisticas.total_femicidios}
+          </p>
+          <p className="text-lg text-gray-200">
+            femicidios registrados en el período analizado
+          </p>
+        </div>
 
-          <motion.div
-            className="bg-[#2C2C2E] p-6 rounded-xl shadow-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-xl text-[#B5B6C9] mb-2">Menores de edad</p>
-            <p className="text-4xl font-bold text-white">73</p>
-          </motion.div>
+        <div className="bg-[#1c1c1c] p-8 rounded-2xl shadow-lg text-center hover:scale-105 transition-transform">
+          <p className="text-6xl font-bold text-red-600 mb-2">
+            {estadisticas.distribucion_edad.menores_de_edad}
+          </p>
+          <p className="text-lg text-gray-200">víctimas eran menores de edad</p>
+        </div>
 
-          <motion.div
-            className="bg-[#2C2C2E] p-6 rounded-xl shadow-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-xl text-[#B5B6C9] mb-2">Parejas o exparejas</p>
-            <p className="text-4xl font-bold text-white">67%</p>
-          </motion.div>
-
-          <motion.div
-            className="bg-[#2C2C2E] p-6 rounded-xl shadow-md"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-xl text-[#B5B6C9] mb-2">Casos sin justicia</p>
-            <p className="text-4xl font-bold text-white">22%</p>
-          </motion.div>
+        <div className="bg-[#1c1c1c] p-8 rounded-2xl shadow-lg text-center hover:scale-105 transition-transform">
+          <p className="text-6xl font-bold text-red-600 mb-2">
+            {Object.keys(estadisticas.casos_por_anio).length}
+          </p>
+          <p className="text-lg text-gray-200">años de registros disponibles</p>
         </div>
       </div>
+
+      <div className="mt-20 text-center">
+        <p className="text-sm text-gray-500">
+          Fuente: Red Chilena contra la Violencia hacia las Mujeres. Periodo de datos: {Math.min(...Object.keys(estadisticas.casos_por_anio).map(Number))} - {Math.max(...Object.keys(estadisticas.casos_por_anio).map(Number))}
+        </p>
+      </div>
+
+      <CasosPorAnioChart data={datosBarChart} />
+
+      {datosPieRelacion.length > 0 ? (
+        <RelacionAgresorWordCloud data={datosPieRelacion} />
+      ) : (
+        <section className="bg-[#111111] py-10 text-center text-white">
+          <p>No hay datos disponibles sobre la relación con el agresor.</p>
+        </section>
+      )}
+
+    <HeatmapECharts data={heatmapData} />
     </section>
   );
-}
+};

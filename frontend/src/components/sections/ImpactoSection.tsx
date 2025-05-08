@@ -23,7 +23,7 @@ export function ImpactoSection() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-semibold text-purple-700">Conciencia Colectiva</h3>
+            <h3 className="text-xl font-semibold text-red-600">Conciencia Colectiva</h3>
             <p className="text-gray-600">
               Promover una mirada crítica y empática frente a la violencia estructural que enfrentan las mujeres en Chile.
             </p>
@@ -36,7 +36,7 @@ export function ImpactoSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-semibold text-purple-700">Acción Informada</h3>
+            <h3 className="text-xl font-semibold text-red-600">Acción Informada</h3>
             <p className="text-gray-600">
               Entregar herramientas concretas a periodistas, investigadoras, activistas y ciudadanía en general para generar cambios reales.
             </p>
@@ -49,7 +49,7 @@ export function ImpactoSection() {
             transition={{ delay: 0.4, duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-xl font-semibold text-purple-700">Memoria y registro</h3>
+            <h3 className="text-xl font-semibold text-red-600">Memoria y registro</h3>
             <p className="text-gray-600">
               No olvidamos. Cada dato cargado aquí representa una vida. Documentar es también resistir.
             </p>
