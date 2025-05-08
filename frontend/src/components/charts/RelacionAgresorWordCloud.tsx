@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
-import 'echarts-wordcloud'; // ⬅️ IMPORTANTE
+import 'echarts-wordcloud'; 
 
 interface WordCloudDatum {
   name: string;
@@ -14,7 +14,6 @@ interface RelacionAgresorWordCloudProps {
 }
 
 export const RelacionAgresorWordCloud: React.FC<RelacionAgresorWordCloudProps> = ({ data }) => {
-  console.log("WordCloud data:", data); // DEBUG
 
   const wordData: WordCloudDatum[] = data.map((item) => ({
     name: item.text,
