@@ -1,54 +1,41 @@
-# 🌐 Frontend — Observatorio de Violencia de Género
+# Observatorio de Violencia de Género - Frontend
 
-Este módulo implementa la interfaz pública del Observatorio de Violencia de Género en Chile. Su objetivo es sensibilizar, informar y visibilizar mediante una experiencia moderna, fluida y respetuosa.
+Este módulo corresponde al frontend tipo Single Page Application (SPA) del Observatorio de Violencia de Género. Visualiza los datos obtenidos desde la API y los presenta en forma de gráficos y secciones explicativas.
 
-## 🧱 Tecnologías
+## Tecnologías utilizadas
 
-- [Next.js](https://nextjs.org/) 15
-- [React](https://reactjs.org/) 19
-- [Tailwind CSS](https://tailwindcss.com/) 4
-- [Framer Motion](https://www.framer.com/motion/) para animaciones suaves
+- Next.js 14
+- Tailwind CSS
+- ECharts (gráficos de barra, heatmap, wordcloud)
+- TypeScript
 
-## ✨ Estructura
+## Estructura general
+
+- `/components/`: Componentes reutilizables como gráficos y secciones.
+- `/services/`: Funciones para conexión con la API.
+- `/app/`: Página principal del sitio.
+
+## Variables de entorno
+
+Crear un archivo `.env` con la siguiente variable:
 
 ```
-/src
-├── app/                     # Entrada principal (pages, layout)
-├── components/              # Componentes reutilizables por sección
-│   └── sections/            # Hero, Datos, Footer, etc.
-├── styles/                  # Archivo `globals.css` con Tailwind
-└── assets/                  # Imágenes y recursos visuales
+NEXT_PUBLIC_API_URL=https://<URL-del-backend>
 ```
 
-## 🚀 Cómo levantar localmente
+## Funcionalidades
 
-1. Instalar dependencias:
-   ```bash
-   npm install
-   ```
+- Visualización de casos por año (gráfico de barras)
+- Heatmap por región y año
+- Nube de palabras con relación entre víctima y agresor
+- Secciones de contexto y sensibilización
+- Diseño responsivo y accesible
 
-2. Ejecutar en modo desarrollo:
-   ```bash
-   npm run dev
-   ```
+## Despliegue
 
-3. Accede en tu navegador:
-   ```
-   http://localhost:3000
-   ```
+Este frontend puede ser desplegado fácilmente en Vercel. Solo asegúrate de configurar correctamente la variable `NEXT_PUBLIC_API_URL`.
 
+## Licencia
 
-## 📌 Estado actual
+Uso sin fines de lucro. Proyecto de sensibilización social basado en datos públicos.
 
-- Página de difusión en desarrollo (SPA)
-- A futuro: integración con API y estadísticas dinámicas
-
-## ⚠️ Notas
-
-- Este frontend se conecta al backend autenticado de la API `/api/estadisticas/globales` (en desarrollo).
-- Algunas secciones están temporalmente desactivadas mientras se completa el backend.
-
----
-
-**Autora**: Katherine Inalef Pineda  
-📍 Valdivia, Chile — 2025

@@ -39,12 +39,12 @@ export const RelacionAgresorWordCloud: React.FC<RelacionAgresorWordCloudProps> =
         gridSize: 8,
         drawOutOfBound: false,
         textStyle: {
-          fontFamily: 'sans-serif',
-          fontWeight: 'bold',
-          color: () => {
-            const colors = ['#a00', '#c22', '#e44', '#fff'];
-            return colors[Math.floor(Math.random() * colors.length)];
-          },
+            fontFamily: '"Inter", "Arial", "Helvetica", sans-serif',
+            fontWeight: 'bold',
+            color: () => {
+                const colors = ['#a00', '#c22', '#e44', '#fff'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            },
         },
         emphasis: {
           textStyle: {
@@ -56,13 +56,17 @@ export const RelacionAgresorWordCloud: React.FC<RelacionAgresorWordCloudProps> =
       },
     ],
   };
-
+  
   return (
     <div className="bg-[#111] text-white rounded-xl p-4 shadow-lg">
       <h3 className="text-3xl font-semibold mb-6 text-center">
         Relación con el agresor
       </h3>
-      <ReactECharts option={option} style={{ height: 500, width: '100%' }} />
+      <ReactECharts
+        option={option}
+        style={{ height: 500, width: '100%' }}
+        opts={{ renderer: "svg" }} // 👈 fuerza SVG
+        />
     </div>
   );
 };

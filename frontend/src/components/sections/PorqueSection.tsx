@@ -23,8 +23,6 @@ export function PorqueSection() {
           viewport={{ once: true }}
         >
         Este observatorio nace con la finalidad de visibilizar y concientizar. En un contexto donde la violencia de género sigue siendo sistemáticamente invisibilizada, necesitamos datos claros, accesibles y humanos.
-        {/**Porque cada número representa una vida. Porque necesitamos ver, sentir y entender la gravedad de la violencia que afecta a mujeres en Chile. Este observatorio busca hacer visible una realidad que suele quedar oculta en planillas, documentos o noticias pasajeras. Aquí, los datos cobran sentido, se hacen cuerpo, historia y urgencia.
-       */}
         </motion.p>
       </div>
     </section>
