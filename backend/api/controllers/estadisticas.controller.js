@@ -33,6 +33,11 @@ function normalizarRelacionAgresor(relacion) {
     "conyugue": "Cónyuge",
     "ex yerno": "Ex Yerno",
     "ex conyugue": "Ex Cónyuge",
+    "ex cunado": "Ex Cuñado",
+    "cunado": "Cuñado",
+    'Cunado': 'Cuñado',
+    'Ex Cunado': 'Ex Cuñado',
+    "Hermano; Cunada": "Hermano; Cuñada",
   };
 
   const claveSinAcentos = removeDiacritics(relacion.trim().toLowerCase());

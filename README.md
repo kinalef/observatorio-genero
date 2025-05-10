@@ -5,6 +5,11 @@ Este proyecto tiene como objetivo centralizar, procesar y disponibilizar datos p
 La arquitectura del sistema se divide en dos módulos principales: `backend` y `frontend`. A su vez, el `backend` se organiza en dos submódulos: uno para el procesamiento y carga de datos, y otro para la API REST que expone los datos procesados de forma autenticada.
 
 ---
+## 🌐 Demo
+
+🔗 [observatorio-genero.vercel.app](https://observatorio-genero.vercel.app)
+
+---
 
 ## 🗂️ Estructura del Proyecto
 
@@ -23,24 +28,18 @@ observatorio-genero/
 ```
 
 ---
-## 🚀 Cómo ejecutar cada módulo
 
-Consulta los README específicos dentro de cada subcarpeta:
+## 🧩 Estructura del Proyecto
 
-- [`backend/README.md`](./backend/README.md)
-- [`frontend/README.md`](./frontend/README.md) *(en desarrollo)*
+- `/frontend`: Aplicación web (SPA) desarrollada en Next.js 14, con gráficos dinámicos usando ECharts y Recharts.
+- `/backend`: API construida con Node.js + Express. Expone endpoints protegidos y públicos.
+- `/backend/carga-datos`: Scripts que procesan archivos Excel (de la Red Chilena contra la Violencia hacia las Mujeres) y los insertan en la base de datos PostgreSQL.
+- Base de datos: PostgreSQL, estructurada para facilitar agregación de estadísticas por año, región, edad, relación con agresor, etc.
 
----
+## 🔗 Datos y API
 
-## 🛠️ Tecnologías principales
-
-- **Node.js** + **Express** — Backend y API REST
-- **PostgreSQL** — Base de datos relacional
-- **Sequelize** — ORM para Node.js
-- **Swagger** — Documentación de la API
-- **JWT + OAuth2 (Google)** — Autenticación de usuarios
-
----
+Los datos mostrados en el frontend provienen directamente de una **API desarrollada dentro de este mismo repositorio**, ubicada en la carpeta `/backend`. Esta API se encuentra desplegada en un servidor distinto, pero sirve como fuente oficial de datos para la SPA.  
+Los datos se cargan mediante scripts desde archivos Excel entregados públicamente por la Red Chilena contra la Violencia hacia las Mujeres.
 
 ## 📌 Estado actual
 
@@ -52,17 +51,35 @@ Consulta los README específicos dentro de cada subcarpeta:
 
 ---
 
+## 🛠️ Tecnologías Utilizadas
+
+### Frontend
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- ECharts
+- Recharts
+- Framer Motion
+
+### Backend
+
+- Node.js + Express
+- PostgreSQL
+- Sequelize ORM
+- Swagger para documentación de la API
+
 ## 🤝 Contribuciones
 
 Este proyecto está en constante evolución. Las sugerencias, issues y pull requests son bienvenidas. Si deseas colaborar, no dudes en ponerte en contacto.
 
 ---
 
-## ⚖️ Licencia
+## ✅ Uso y Licencia
 
-Este proyecto se encuentra bajo la Licencia MIT.
-
----
+- Los datos provienen de la **Red Chilena contra la Violencia hacia las Mujeres**.
+- Esta plataforma no tiene fines de lucro.
+- El proyecto es de código abierto y se puede reutilizar, siempre que se cite la fuente de los datos y se respete el objetivo de sensibilización.
 
 ## ✨ Autor
 

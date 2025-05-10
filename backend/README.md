@@ -1,47 +1,59 @@
-# 📊 Backend - Observatorio de Violencia de Género
+# Observatorio de Violencia de Género - Backend
 
-Este módulo del Observatorio de Violencia de Género en Chile tiene como objetivo procesar archivos Excel publicados por la [Red Chilena contra la Violencia hacia las Mujeres](https://www.nomasviolenciacontramujeres.cl/) y cargar la información relevante en una base de datos PostgreSQL, que será posteriormente disponibilizada a través de una API.
+Este módulo corresponde al backend del Observatorio de Violencia de Género. Expone una API REST que permite acceder a los datos procesados desde fuentes públicas como la Red Chilena contra la Violencia hacia las Mujeres.
 
-## 🚀 ¿Qué hace este módulo?
+## Estructura general
 
-- Lee archivos `.xlsx` ubicados en `backend/data/red/`.
-- Limpia y transforma los datos relevantes.
-- Inserta los datos en una base de datos PostgreSQL mediante Sequelize.
+- `/api/`: Código de la API construida con Express.
+- `/carga-datos/`: Scripts para cargar archivos Excel a la base de datos.
+- `/shared/`: Modelos y configuración compartida.
 
-## 📁 Estructura del backend
+## Tecnologías utilizadas
 
-```
-backend/                    # Todo el backend del sistema
-├── api/                    # API REST con Express, autenticación y Swagger
-├── carga-data/            # Scripts que procesan archivos Excel y cargan los datos
-├── shared/                 # Modelos Sequelize y configuración de base de datos
-├── package.json            # Dependencias comunes del backend
-└── README.md               # Documentación general del backend
-
-```
-
-## ⚙️ Requisitos    
-
-- Node.js (v18+)
+- Node.js
+- Express
+- Sequelize (ORM)
 - PostgreSQL
-- Archivo `.env` con configuración de base de datos
+- JWT para autenticación
 
-Ejemplo de `.env`:
+## Endpoints principales
+
+- `GET /api/estadisticas/globales`: Retorna estadísticas agregadas sobre los casos.
+- `GET /api/casos`: Lista de casos.
+- `POST /api/login`: Autenticación con Google (opcional, según configuración).
+
+## Base de datos
+
+- PostgreSQL
+- Modelos definidos con Sequelize
+- Migraciones automáticas
+
+## Scripts de carga de datos
+
+En la carpeta `/carga-datos/` se encuentran los scripts que leen archivos `.xlsx` desde `/data/`, procesan los encabezados y los almacenan en la base de datos normalizada.
+
+## Variables de entorno
+
+Crear un archivo `.env` con las siguientes variables:
 
 ```
-DB_HOST=localhost
-DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=tu_clave
-DB_NAME=observatorio_db
+DB_HOST=
+DB_PORT=
+DB_NAME=
+DB_USER=
+DB_PASSWORD=
+JWT_SECRET=
 ```
 
-## 📝 Cómo ejecutar el procesamiento
+## Autenticación
 
-Desde la raíz del proyecto:
+Se puede habilitar el login con Google mediante el uso de OAuth2. Para ello, configurar el ID y secret del cliente de Google en las variables de entorno.
 
-```bash
-node backend/procesar_excel_red_contra_violencia.js
-```
+## Licencia
 
+Proyecto con fines educativos y sin fines de lucro. Uso de datos con fines de sensibilización y visibilización.
 
+---
+
+**Autora**: Katherine Inalef Pineda  
+📍 Valdivia, Chile — 2025
