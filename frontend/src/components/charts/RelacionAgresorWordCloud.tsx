@@ -58,13 +58,13 @@ export const RelacionAgresorWordCloud: React.FC<RelacionAgresorWordCloudProps> =
   };
   
   return (
-    <div className="bg-[#111] text-white rounded-xl p-4 shadow-lg">
-      <h3 className="text-3xl font-semibold mb-6 text-center">
+    <div className="bg-[#111] text-white rounded-xl p-4  shadow-lg">
+      <h3 className="text-5xl font-semibold mb-6 text-center">
         Relación con el agresor
       </h3>
       <ReactECharts
         option={option}
-        style={{ height: 500, width: '100%' }}
+        style={{ height: 350, width: '100%' }}
         opts={{ renderer: "svg" }} // 👈 fuerza SVG
         />
     </div>

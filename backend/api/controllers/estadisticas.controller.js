@@ -133,7 +133,7 @@ const calcularEstadisticasGlobales = async (req, res) => {
         if (caso.fecha && !isNaN(caso.fecha.getTime())) {
           anio = caso.fecha.getFullYear();
         } else {
-          anio = 'Fecha desconocida';
+          anio = 'Desconocida';
         }
       
         acc[anio] = (acc[anio] || 0) + 1;

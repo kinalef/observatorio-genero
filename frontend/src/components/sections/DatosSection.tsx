@@ -71,6 +71,13 @@ export const DatosSection: React.FC<DatosSectionProps> = ({ estadisticas }) => {
     });
   }, [estadisticas]);
 
+  // Extrae solo las claves numéricas del objeto casos_por_anio
+  const numericYears = Object.keys(estadisticas.casos_por_anio)
+    .filter((key) => !isNaN(Number(key)))
+    .map(Number);
+
+  const minimo = Math.min(...numericYears);
+  const maximo = Math.max(...numericYears);
   return (
     <section className="bg-[#111111] text-white py-20 px-6">
       <div className="max-w-5xl mx-auto text-center mb-16">
@@ -109,7 +116,7 @@ export const DatosSection: React.FC<DatosSectionProps> = ({ estadisticas }) => {
 
       <div className="mt-20 text-center">
         <p className="text-sm text-gray-500">
-          Fuente: Red Chilena contra la Violencia hacia las Mujeres. Periodo de datos: {Math.min(...Object.keys(estadisticas.casos_por_anio).map(Number))} - {Math.max(...Object.keys(estadisticas.casos_por_anio).map(Number))}
+          Fuente: Red Chilena contra la Violencia hacia las Mujeres. Periodo de datos: {minimo} - {maximo}
         </p>
       </div>
 
