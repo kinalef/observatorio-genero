@@ -1,59 +1,64 @@
-# Observatorio de Violencia de Género - Backend
+# Backend - Observatorio de Femicidios en Chile
 
-Este módulo corresponde al backend del Observatorio de Violencia de Género. Expone una API REST que permite acceder a los datos procesados desde fuentes públicas como la Red Chilena contra la Violencia hacia las Mujeres.
+Este backend forma parte del Observatorio de Femicidios en Chile. Su principal función es disponibilizar los datos recopilados por la Red Chilena contra la Violencia hacia las Mujeres a través de una API REST segura y documentada.
 
-## Estructura general
+## Funcionalidades principales
 
-- `/api/`: Código de la API construida con Express.
-- `/carga-datos/`: Scripts para cargar archivos Excel a la base de datos.
-- `/shared/`: Modelos y configuración compartida.
+- Procesamiento de archivos Excel con registros anuales de femicidios.
+- Almacenamiento de los datos en una base de datos PostgreSQL.
+- Exposición de los datos a través de una API REST protegida con JWT.
+- Endpoint para estadísticas agregadas (por región, por año, por relación con el agresor, etc).
+- Sistema de autenticación con Google OAuth.
+- Control de acceso basado en roles.
+- Limitación de llamadas a la API (en desarrollo).
 
-## Tecnologías utilizadas
-
-- Node.js
-- Express
-- Sequelize (ORM)
-- PostgreSQL
-- JWT para autenticación
-
-## Endpoints principales
-
-- `GET /api/estadisticas/globales`: Retorna estadísticas agregadas sobre los casos.
-- `GET /api/casos`: Lista de casos.
-- `POST /api/login`: Autenticación con Google (opcional, según configuración).
-
-## Base de datos
-
-- PostgreSQL
-- Modelos definidos con Sequelize
-- Migraciones automáticas
-
-## Scripts de carga de datos
-
-En la carpeta `/carga-datos/` se encuentran los scripts que leen archivos `.xlsx` desde `/data/`, procesan los encabezados y los almacenan en la base de datos normalizada.
-
-## Variables de entorno
-
-Crear un archivo `.env` con las siguientes variables:
+## Estructura del backend
 
 ```
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-JWT_SECRET=
+backend/
+├── api/                    # API REST con Express
+│   ├── controllers/        # Controladores de endpoints
+│   ├── middlewares/       # Middleware de autenticación y validación
+│   ├── routes/            # Rutas protegidas y públicas
+│   └── utils/             # Utilidades compartidas
+├── carga-data/            # Scripts para procesamiento y carga de Excel
+├── shared/                # Modelos y configuración compartida (Sequelize, .env)
+├── .env                   # Variables de entorno locales
+└── README.md              # Este archivo
 ```
 
-## Autenticación
+## Instalación y uso
 
-Se puede habilitar el login con Google mediante el uso de OAuth2. Para ello, configurar el ID y secret del cliente de Google en las variables de entorno.
+1. Clona el repositorio y navega a la carpeta `backend/`.
+2. Copia el archivo `.env.example` y renómbralo a `.env`. Ajusta las variables según tu configuración.
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+4. Ejecuta las migraciones y carga inicial de datos:
+   ```bash
+   npm run migrate
+   npm run seed
+   ```
+5. Inicia el servidor:
+   ```bash
+   npm run dev
+   ```
+
+## Endpoints relevantes
+
+- `GET /api/estadisticas`: estadísticas agregadas (sin autenticación).
+- `POST /api/casos`: permite crear un nuevo caso (requiere autenticación y rol admin).
+- `GET /api/casos`: listar casos cargados (requiere autenticación y rol admin).
+- `GET /api/docs`: documentación Swagger de la API.
+
+## Consideraciones
+
+- Los datos provienen de archivos Excel anuales publicados por la Red Chilena contra la Violencia hacia las Mujeres.
+- La información ha sido procesada para normalizar nombres de regiones, relaciones y fechas.
+- No se incluyen registros de "suicidios femicidas" u otras categorías que no estén explícitamente clasificadas como femicidio.
+- La autenticación se realiza mediante Google OAuth y los permisos se controlan por rol.
 
 ## Licencia
 
-Proyecto con fines educativos y sin fines de lucro. Uso de datos con fines de sensibilización y visibilización.
-
----
-
-**Autora**: Katherine Inalef Pineda  
-📍 Valdivia, Chile — 2025
+Este proyecto es sin fines de lucro, creado con el objetivo de visibilizar y facilitar el acceso a información pública sobre femicidios en Chile.

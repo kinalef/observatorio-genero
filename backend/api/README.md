@@ -67,10 +67,7 @@ Puedes explorar y probar los endpoints a través de la documentación Swagger in
 - Implementar pruebas unitarias para los controladores principales (Jest/Supertest).
 - Mejorar el manejo de errores y mensajes de respuesta.
 - Agregar validación avanzada de datos en los endpoints (por ejemplo, usando Joi).
-- Implementar paginación y filtros para consultas de casos.
 - Mejorar seguridad mediante Rate Limiting y Helmet.
-- Agregar sistema de roles para diferentes tipos de usuarios.
 - Implementar logging avanzado para seguimiento de errores y actividad.
-- Publicar el frontend y conectar con esta API para visualización pública de los datos.
 
 ---
