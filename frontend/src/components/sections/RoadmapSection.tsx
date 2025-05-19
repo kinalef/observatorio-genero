@@ -4,7 +4,7 @@ export  function RoadmapSection() {
   return (
     <section className="bg-[#111111] text-white py-24 px-6">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-4xl font-bold mb-6">Lo que viene</h2>
+        <h2 className="text-4xl font-bold mb-6">Próximos pasos</h2>
         <p className="text-lg md:text-xl leading-relaxed mb-12">
           Seguiremos incorporando datos,
           desarrollando análisis profundos y sumando nuevas formas de visibilizar la

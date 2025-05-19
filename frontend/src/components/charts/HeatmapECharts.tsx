@@ -91,7 +91,7 @@ export const HeatmapECharts: React.FC<HeatmapEChartsProps> = ({ data }) => {
   return (
     <div className="bg-[#111] text-white rounded-xl p-4 shadow-lg">
       <h3 className="text-5xl font-semibold mb-6 text-center">
-        Casos por región y año
+        Femicidios por región y año
       </h3>
       <ReactECharts option={option} style={{ height: 600, width: '100%' }} />
     </div>
