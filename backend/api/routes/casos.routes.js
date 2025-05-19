@@ -13,8 +13,7 @@ const verificarRol = require('../middlewares/verificarRol.middleware');
  *   get:
  *     summary: Obtener todos los casos con paginación
  *     tags: [Casos]
- *     security:
- *       - BearerAuth: []
+ *     security: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -33,15 +32,14 @@ const verificarRol = require('../middlewares/verificarRol.middleware');
  *         description: Error al obtener los casos
  */
 
-router.get('/', verificarToken,obtenerCasos);
+router.get('/',obtenerCasos);
 /**
  * @swagger
  * /api/casos/{id}:
  *   get:
  *     summary: Obtener un caso por ID
  *     tags: [Casos]
- *     security:
- *       - BearerAuth: []
+ *     security: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -55,7 +53,7 @@ router.get('/', verificarToken,obtenerCasos);
  *       404:
  *         description: Caso no encontrado
  */
-router.get('/:id',verificarToken, obtenerPorId);
+router.get('/:id', obtenerPorId);
 /**
  * @swagger
  * /api/casos:
